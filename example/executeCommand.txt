@@ -1,0 +1,1 @@
+rmvPFBAM.py -a example/primer_fp_rp.txt -b example//SRR866441.sort.bam -l 151 -t temp -o example//SRR8.rmp.bam -e 2
