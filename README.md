@@ -7,9 +7,9 @@ VERSION: 1.0.0
 PLATFORM: Linux
 AUTHOR: YanjunMa
 DATE: 2021-02-05
-	
+****	
 
-****
+
 ## Description
 * This tool is used to remove primer from BAM.
 * The input of the tool is BAM and amplicon file. The format of the amplicon file can be referenced in the example folder.
