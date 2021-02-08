@@ -37,4 +37,6 @@ Example:
 ```
 
 ## Example
-### rmvPFBAM -a amplicon.txt -b SRR866441.bam -l 150 -t temp -o output/SRR866441.rmp.bam -e 2
+```
+rmvPFBAM -a amplicon.txt -b SRR866441.bam -l 150 -t temp -o output/SRR866441.rmp.bam -e 2
+```
