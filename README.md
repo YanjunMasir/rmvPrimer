@@ -1,15 +1,26 @@
 rmvPFBAM
 ===========================
-该文件用来测试和展示书写README的各种markdown语法。GitHub的markdown语法在标准的markdown语法基础上做了扩充，称之为`GitHub Flavored Markdown`。简称`GFM`，GFM在GitHub上有广泛应用，除了README文件外，issues和wiki均支持markdown语法。
+Used to remove primers from BAM files.
 
+PROGRAM: rmvPFBAM
+VERSION: 1.0.0
+PLATFORM: Linux
+AUTHOR: YanjunMa
+DATE: 2021-02-05
 ****
 	
 
 ****
-## 目录
-* [横线](#横线)
-* [标题](#标题)
-* [文本](#文本)
+## Description
+* This tool is used to remove primer from BAM.
+* The input of the tool is BAM and amplicon file. The format of the amplicon file can be referenced in the example folder.
+
+## Prepare
+* Python 3.0
+* The needed module is :pysam、multiprocessing、regex
+
+
+
     * 普通文本
     * 单行文本
     * 多行文本
@@ -36,6 +47,11 @@ rmvPFBAM
 * [表格](#表格) 
 * [表情](#表情)
 * [diff语法](#diff语法)
+
+## Usage
+
+
+## Option
 
 ### 横线
 -----------
