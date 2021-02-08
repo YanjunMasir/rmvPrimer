@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env /usr/bin/python
 
 from __future__ import print_function
 from optparse import OptionParser
@@ -9,12 +9,26 @@ import argparse
 import os
 import re
 import collections
-#from multiprocessing import Process, Queue, current_process, freeze_support
-#import multiprocessing
 import subprocess
 import multiprocessing as mp
 from multiprocessing import Lock
 from multiprocessing import Manager
+
+print("\nProgram: rmvPFBAM (tools for removing primer from the BAM file)")
+print("Version: 1.0\n")
+print("Usage: rmvPFBAM\n")
+print("Paramer:")
+print(" -a  Amplicon file. File format is: amplicon tag, front primer sequence, reverse primer sequence, gene, chrom, start position of the front primer")
+print("		end position of the front primer, start position of the reverse primer, end position of the reverse primer")
+print("		Ex: RB1_11_14_RB1_1,GCAGCAGCTGGGTCATCTAT,TGAAACACTATAAAGCCATGAATAACA,RB1,chr13,48942506,48942526,48942776,48942803")
+print("		    RB1_7_14_RB1_1,TCTACCCTGCGATTTTCTCTCA,TCCTGTCAGCCTTAGAACCA,RB1,chr13,48934079,48934101,48934338,48934358")
+print(" -b  The input BAM file that need to remove the primer.")
+print(" -l  Length of the read.")
+print(" -t  Temp folder.")
+print(" -o  The output BAM file. You can also specify the folder of the BAM file. Ex: project/output/SRR866441.rmp.bam ")
+print(" -e  The error count you can tolerant when comparing the primer with the read sequence.\n")
+print("Example: rmvPFBAM -a amplicon.txt -b SRR866441.bam -l 150 -t temp -o output/SRR866441.rmp.bam -e 2\n")
+
 
 ## global variable. get value from input
 readseqlength = 0
@@ -41,7 +55,7 @@ def DNA_revcplm(sequence):
 
 def DNA_reverse(sequence):
         sequence = sequence.upper()
-        return sequence[::-1]
+        return str(sequence[::-1])
 
 def DNA_complement(sequence):
         sequence = sequence.upper()
@@ -388,11 +402,13 @@ def ComparePrimerwithSeq(reada, readb, fp, rp, fragmentlen, errCnt):
 
 	## reada is + strand and readb is - strand. fp match reada and rp match readb.
 	if(reada.strand == '+'):
-		if regex.search(r'^(' + fp + '){e<=' + errCnt+ '}', rdaseq) and regex.search(r'^('+rp+'){e<='+errCnt+'}', DNA_revcplm(rdbseq)):
+		if (regex.search(r'^(' + fp + '){e<=' + errCnt+ '}', rdaseq) is not None) and (None != regex.search(r'^('+rp+'){e<='+errCnt+'}', DNA_revcplm(rdbseq))):
 			isprimermatch = 'y'
 	## reada is - strand and readb is + strand. fp match reada`s reverse seq and fp match readb.
 	elif(reada.strand == '-'):
-		if regex.search(r'^('+rp+'){e<='+errCnt+'}', DNA_revcplm(rdaseq)) and regex.search(r'^('+fp+'){e<='+errCnt+'}', rdbseq):
+		rda_s_rslt = re.search(r'^('+rp+'){e<='+errCnt+'}', DNA_revcplm(rdaseq))
+		rdb_s_rslt = re.search(r'^('+fp+'){e<='+errCnt+'}', rdbseq)
+		if (rda_s_rslt is not None) and (rdb_s_rslt is not None):
 			isprimermatch = 'y'
 
 	return isprimermatch
@@ -744,7 +760,7 @@ def ErrorCheck1(qname, seq, cigar, md):
 
 
 def GetModifyReadfor1Ampl(bamf, outputdir, ampls, errCnt, outputq, lock):
-	print("GetModifyReadfor1Ampl:amplno=", ampls[0].no)
+#	print("GetModifyReadfor1Ampl:amplno=", ampls[0].no)
 	rsltl = []
 	outbfname = outputdir + '/' +  os.path.split(bamf)[1] + '.' + ampls[0].no + '.cutp.part.bam'
 
@@ -916,13 +932,11 @@ def main():
 
 	## write amplicons` count to one file
 	for x in amplcnts:
-		print('amplcnts:', x[0].no, x[1])
-		outamplcntf.write(x[0].no + ',' + x[0].fp + ',' + x[0].rp + ',' + x[0].chrom + ',' + str(x[1]) + ',' + '\n')
+#		print('amplcnts:', x[0].no, x[1])
+		outamplcntf.write(x[0].no + ',' + x[0].fp + ',' + x[0].rp + ',' + x[0].chrom + ',' + str(x[1]) + '\n')
 
 	outamplcntf.close()
 
 
 if __name__ == '__main__':
         main()
-
-
