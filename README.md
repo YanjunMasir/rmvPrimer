@@ -7,6 +7,7 @@ PROGRAM: rmvPFBAM
 VERSION: 1.0.0
 PLATFORM: Linux
 AUTHOR: YanjunMa
+EMAIL:mayanjun0010@yeah.net
 DATE: 2021-02-05
 ```
 
