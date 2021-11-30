@@ -1,7 +1,5 @@
 #! /usr/bin/env /usr/bin/python
 
-from __future__ import print_function
-from optparse import OptionParser
 import sys
 import pysam
 import regex
@@ -406,8 +404,8 @@ def ComparePrimerwithSeq(reada, readb, fp, rp, fragmentlen, errCnt):
 			isprimermatch = 'y'
 	## reada is - strand and readb is + strand. fp match reada`s reverse seq and fp match readb.
 	elif(reada.strand == '-'):
-		rda_s_rslt = re.search(r'^('+rp+'){e<='+errCnt+'}', DNA_revcplm(rdaseq))
-		rdb_s_rslt = re.search(r'^('+fp+'){e<='+errCnt+'}', rdbseq)
+		rda_s_rslt = regex.search(r'^('+rp+'){e<='+errCnt+'}', DNA_revcplm(rdaseq))
+		rdb_s_rslt = regex.search(r'^('+fp+'){e<='+errCnt+'}', rdbseq)
 		if (rda_s_rslt is not None) and (rdb_s_rslt is not None):
 			isprimermatch = 'y'
 
